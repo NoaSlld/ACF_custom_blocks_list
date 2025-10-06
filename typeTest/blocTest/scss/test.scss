@@ -1,0 +1,118 @@
+@use '@/tools' as tools;
+@use '@/mixins' as mixins;
+
+
+.block--text-image {
+
+    &.blue-background {
+        background-color: rgba(tools.$secondary, 8%);
+    }
+
+    &.round-upper-left {
+        border-top-left-radius: 80px;
+    }
+
+    &.round-upper-right {
+        border-top-right-radius: 80px;
+    }
+
+    .large-container {
+        display: flex;
+        gap: 150px;
+        align-items: center;
+        padding: 0 20px;
+
+        @include mixins.responsive(largecontainer) {
+            gap: 50px;
+        }
+
+        @include mixins.responsive(laptop) {
+            padding-top: 50px;
+            flex-direction: column;
+        }
+
+
+        &.reverse-columns {
+
+            flex-direction: row-reverse;
+
+            @include mixins.responsive(laptop) {
+                flex-direction: column;
+            }
+        }
+
+        .content {
+
+  
+
+            h2 {
+                margin-bottom: 10px;
+            }
+
+            .separator {
+                display: block;
+                background-color: tools.$secondary;
+                margin: 10px 0 20px 0;
+                width: 36px;
+                height: 2px;
+            }
+
+            .description {
+                color: var(--color-text);
+                font-size: mixins.px2rem(14);
+                font-style: normal;
+                font-weight: tools.$fontRegular;
+                line-height: 24px;
+                padding-bottom: 23px;
+                margin-top: 20px;
+            }
+
+            .link-container {
+                width: fit-content;
+            }
+        }
+
+        .logo-container {
+            display: block;
+            height: 500px;
+            width: 595px;
+            max-width: 100%;
+            flex-shrink: 0;
+
+            img {
+                height: 100%;
+                width: 100%;
+                object-fit: contain;
+            }
+        }
+
+        .image-container {
+            height: 500px;
+            width: 595px;
+            max-width: 100%;
+            flex-shrink: 0;
+
+            &.shift-top {
+                height: 600px;
+                margin-top: -70px;
+
+                @include mixins.responsive(largecontainer) {
+                    height: 500px;
+                }
+            }
+
+            @include mixins.responsive(largecontainer) {
+                height: 400px;
+                width: 475px;
+            }
+
+
+            img {
+                height: 100%;
+                width: 100%;
+                object-fit: cover;
+                border-radius: 10px;
+            }
+        }
+    }
+}

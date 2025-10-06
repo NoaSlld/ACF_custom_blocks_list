@@ -1,0 +1,19 @@
+{
+  "name": "acf_custom_blocks_list",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "upload": "node tools/main.js"
+  },
+  "description": "Outil CLI pour exporter et intégrer des blocs ACF dans un projet WordPress",
+  "main": "tools/main.js",
+  "keywords": ["acf", "wordpress", "cli", "blocks"],
+  "author": "Noa SILLARD",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "fs-extra": "^11.2.0",
+    "inquirer": "^12.0.0",
+    "uuid": "^11.0.2"
+  }
+}
