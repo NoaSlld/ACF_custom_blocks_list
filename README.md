@@ -22,19 +22,22 @@ Préparez votre environnement à la racine du projet avec la commande:
 ```
 
 Ce script :
-- Vérifie la présence de Node.js ≥ 18 et npm
-- Vérifie le fichier package.json et le script upload
-- Installe automatiquement les dépendances nécessaires (chalk, inquirer, fs-extra, uuid)
+- Vérifie la présence de Python 3.10
+- Crée un environnement virtuel (venv)
+- Installe automatiquement les dépendances Python listées dans requirements.txt (tkinter, inquirer, etc.)
 
 
 ## Utilisation
 
+Activez l'environnement virtuel avec:
+```source venv/bin/activate```  # macOS / Linux
+```venv\Scripts\activate```     # Windows
+
 Lancez le script avec :
 ```bash
-npm run upload
+python3 -m tools.gui_upload
 ```
 
-- Chemin du bloc à exporter → dossier source contenant acf/, js/, scss/, php/
-- Chemin du projet WordPress → dossier racine du projet
-- Nom du thème WordPress → ex : mon-theme
-- Le nom du fichier JSON global ACF → ex : group_67b5e6f413fa6.json
+- Chemin du bloc à exporter → dossier source contenant votre bloc à exporter (comportant: acf/, js/, scss/, php/)
+- Thème WordPress → Theme dans lequel il faut exporter le bloc
+- Fichier JSON cible contenant tous les champs du ACF du projet → ex : group_67b5e6f413fa6.json

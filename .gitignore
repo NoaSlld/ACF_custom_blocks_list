@@ -47,6 +47,17 @@ web_modules/
 # TypeScript cache
 *.tsbuildinfo
 
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+
+# Virtual environment
+venv/
+env/
+.venv/
+
 # Optional npm cache directory
 .npm
 
@@ -138,6 +149,8 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
-
-# Mac OS
-.DS_Store
+# IDE / OS files
+*.swp
+*.DS_Store
+.idea/
+.vscode/

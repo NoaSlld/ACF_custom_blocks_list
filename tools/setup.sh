@@ -1,67 +1,51 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-echo "🚀 Préparation et vérification de l'environnement pour le script upload.js..."
+set -e
 
 
-# -- 1 Vérification Node.js --
-
-REQUIRED_NODE_MAJOR=18
-if command -v node >/dev/null 2>&1; then
-  NODE_VERSION=$(node -v | sed 's/v\([0-9]*\).*/\1/')
-  if [ "$NODE_VERSION" -lt "$REQUIRED_NODE_MAJOR" ]; then
-    echo "❌ Node.js version $NODE_VERSION détectée. Version minimale requise : $REQUIRED_NODE_MAJOR"
-    exit 1
-  else
-    echo "✅ Node.js version $NODE_VERSION"
-  fi
+# --- Vérification de Python 3.10 ---
+if command -v python3.10 &>/dev/null; then
+    PYTHON=python3.10
+elif command -v python3 &>/dev/null && python3 --version | grep -q "3.10"; then
+    PYTHON=python3
 else
-  echo "❌ Node.js n'est pas installé. Installe-le avant de continuer."
-  exit 1
-fi
-
-
-# -- 2 Vérification npm --
-
-if command -v npm >/dev/null 2>&1; then
-  echo "✅ npm version ($(npm -v))"
-else
-  echo "❌ npm n'est pas installé. Installe-le avant de continuer."
-  exit 1
-fi
-
-
-# -- 3 Vérification package.json --
-
-if [ ! -f package.json ]; then
-  if [ -f ../package.json ]; then
-    echo "⚠️  Aucun package.json trouvé ici, mais trouvé dans le dossier parent → on remonte"
-    cd ..
-  else
-    echo "❌ Aucun package.json trouvé à la racine du projet."
+    echo "❌ Python 3.10 n'est pas installé. Veuillez l'installer d'abord."
     exit 1
-  fi
 fi
 
-if ! grep -q '"type": "module"' package.json; then
-  echo "❌ Le package.json n'est pas en mode module (\"type\": \"module\" absent)"
-  exit 1
+echo "✅ Python 3.10 trouvé : $($PYTHON --version)"
+
+
+# --- Création du venv ---
+VENV_DIR="venv"
+if [ -d "$VENV_DIR" ]; then
+    echo "⚠️  Le dossier $VENV_DIR existe déjà. Il sera supprimé et recréé."
+    rm -rf "$VENV_DIR"
 fi
 
-if ! grep -q '"upload"' package.json; then
-  echo "❌ Le script npm \"upload\" est manquant dans package.json"
-  exit 1
-fi
-
-echo "✅ package.json vérifié"
+$PYTHON -m venv "$VENV_DIR"
+echo "✅ Virtualenv créé dans $VENV_DIR"
 
 
-# -- 4 Installation des dépendances --
+# --- Activation et upgrade pip ---
+source "$VENV_DIR/bin/activate"
+pip install --upgrade pip
+echo "✅ pip mis à jour"
 
-echo "Installation des dépendances du package.json si nécessaire..."
-npm install
-npm install uuid
 
-echo ""
-echo "✅ Environnement prêt !"
-echo "👉 Tu peux maintenant lancer : npm run upload"
+# --- Installation des dépendances ---
+pip install -r requirements.txt
+echo "✅ Dépendances installées"
 
+
+# --- Vérification de Tkinter ---
+$PYTHON - <<END
+try:
+    import tkinter
+    print("✅ Tkinter est disponible : TkVersion", tkinter.TkVersion)
+except ImportError:
+    print("❌ Tkinter n'est pas disponible. Sur macOS, installer avec : brew install python-tk")
+END
+
+echo "🎉 Environnement prêt !"
+echo "Pour l'utiliser (MacOS / Linux), tapez : source $VENV_DIR/bin/activate"
