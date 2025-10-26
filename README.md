@@ -1,6 +1,6 @@
 # Script d’export de blocs ACF vers un projet WordPress
 
-Ce script Node.js permet d'exporter automatiquement les fichiers d’un **bloc ACF flexible** (JSON, SCSS, JS, PHP) dans la structure d’un thème WordPress existant.  
+Ce script Python permet d'exporter automatiquement les fichiers d’un **bloc ACF flexible** (JSON, SCSS, JS, PHP) dans la structure d’un thème WordPress existant.  
 
 
 ## Structure attendue d’un bloc
