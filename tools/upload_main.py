@@ -1,7 +1,7 @@
 from pathlib import Path
 from .command_line import CommandLineInterface
 from .copy_files import FileCopier
-from .json_utils import JsonManager
+from .json_utils import JsonManager 
 import sys
 
 
@@ -15,7 +15,7 @@ class UploadMain:
     def run(self):
         print("\n Script d’export de bloc ACF\n")
 
-        # --- sélection du bloc ---
+        # sélection du bloc 
         bloc_path = Path(self.cli.ask_bloc_path())
         bloc_name = bloc_path.name
 
@@ -23,14 +23,14 @@ class UploadMain:
             print(f"❌ Dossier source du bloc introuvable → {bloc_path}")
             sys.exit(1)
 
-        # --- sélection du thème WordPress ---
+        # sélection du thème WordPress 
         theme_name = self.cli.ask_theme_name()
         theme_path = Path(theme_name)
         if not theme_path.exists():
             print(f"❌ Dossier du thème introuvable → {theme_path}")
             sys.exit(1)
 
-        # --- sélection du fichier global JSON ---
+        # sélection du fichier global JSON 
         global_json_name = self.cli.ask_global_json_name()
         bloc_json_path = bloc_path / "acf" / f"{bloc_name}.json"
         global_json_path = theme_path / "acf" / global_json_name
@@ -44,12 +44,13 @@ class UploadMain:
 
         bloc_json = self.json_manager.read_json(bloc_json_path)
         global_json = self.json_manager.read_json(global_json_path)
+        bloc_json = self.json_manager.normalize_bloc_keys(bloc_json)
+        self.json_manager.add_bloc_to_global_json(global_json, bloc_json)
+
 
         print(f"\n🚀 Export du bloc \"{bloc_name}\" vers le thème \"{theme_path.name}\"\n")
 
         try:
-            # --- copie des fichiers ---
-            # dans UploadMain.run()
             mappings = [
                 {"label": "JavaScript", "src": bloc_path / "js", "dest": Path(self.file_copier.custom_paths.get("js"))},
                 {"label": "SCSS", "src": bloc_path / "scss", "dest": Path(self.file_copier.custom_paths.get("scss"))},
@@ -58,7 +59,7 @@ class UploadMain:
 
             self.file_copier.copy_bloc_files(mappings)
 
-            # --- ajout du bloc dans le JSON global ---
+            # ajout du bloc dans le JSON
             self.json_manager.add_bloc_to_global_json(global_json, bloc_json)
             self.json_manager.write_json(global_json_path, global_json)
 

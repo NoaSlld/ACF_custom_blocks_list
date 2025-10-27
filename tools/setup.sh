@@ -47,5 +47,5 @@ except ImportError:
     print("❌ Tkinter n'est pas disponible. Sur macOS, installer avec : brew install python-tk")
 END
 
-echo "🎉 Environnement prêt !"
+echo "Environnement virtuel prêt !"
 echo "Pour l'utiliser (MacOS / Linux), tapez : source $VENV_DIR/bin/activate"

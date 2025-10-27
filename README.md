@@ -38,6 +38,19 @@ Lancez le script avec :
 python3 -m tools.gui_upload
 ```
 
+Désactiver l'environnement virtuel une fois fini avec
+```bash
+deactivate
+```
+
 - Chemin du bloc à exporter → dossier source contenant votre bloc à exporter (comportant: acf/, js/, scss/, php/)
 - Thème WordPress → Theme dans lequel il faut exporter le bloc
 - Fichier JSON cible contenant tous les champs du ACF du projet → ex : group_67b5e6f413fa6.json
+
+
+
+
+
+- verif forme json source qui semble avoir une identation de trop
+
+- verif si dans js/scss/php il y a un dossier -> il faut re-créer ces dossier dans le projet cible s'ils n'existent pas, sinon on ajout juste le fichier dedans

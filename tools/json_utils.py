@@ -31,3 +31,18 @@ class JsonManager:
 
         bloc_json["key"] = layout_key
         layouts[layout_key] = bloc_json
+
+
+    def normalize_bloc_keys(self, bloc_json):
+        if len(bloc_json) == 1 and next(iter(bloc_json)).startswith("layout_"):
+            old_key = next(iter(bloc_json))
+            data = bloc_json[old_key]
+        else:
+            data = bloc_json
+            old_key = None
+
+        new_key = f"layout_{uuid.uuid4().hex[:12]}"
+        data["key"] = new_key
+
+        return {new_key: data}
+

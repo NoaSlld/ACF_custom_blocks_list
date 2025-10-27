@@ -3,23 +3,37 @@ from pathlib import Path
 import sys
 
 class FileCopier:
+    def __init__(self):
+        self.custom_paths = {}
 
     def check_and_copy(self, src: Path, dest: Path, label: str):
+        """Copie le contenu du dossier src vers dest
+        - recrée les sous-dossiers si présents
+        - copie les fichiers
+        """
         if not src.exists():
-            print(f"❌ Dossier source absent pour {label} → {src}")
-            sys.exit(1)
+            print(f"⚠️  Aucun dossier source trouvé pour {label} → {src} (ignoré)")
+            return 
 
         if not dest.exists():
-            print(f"❌ Dossier de destination absent pour {label} → {dest}")
-            sys.exit(1)
+            print(f"⚠️  Le dossier de destination pour {label} n'existe pas → création : {dest}")
+            dest.mkdir(parents=True, exist_ok=True)
 
-        for item in src.iterdir():
-            dest_item = dest / item.name
-            if item.is_dir():
-                shutil.copytree(item, dest_item, dirs_exist_ok=True)
-            else:
-                shutil.copy2(item, dest_item)
-                
+        has_subdirs = any(item.is_dir() for item in src.iterdir())
+
+        if has_subdirs:
+            # recréer la hiérarchie complète
+            for item in src.iterdir():
+                dest_item = dest / item.name
+                if item.is_dir():
+                    shutil.copytree(item, dest_item, dirs_exist_ok=True)
+                else:
+                    shutil.copy2(item, dest_item)
+        else:
+            for item in src.iterdir():
+                if item.is_file():
+                    shutil.copy2(item, dest / item.name)
+
         print(f"✅ {label} copié : {src} → {dest}")
 
 
