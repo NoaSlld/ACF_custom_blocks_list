@@ -18,7 +18,7 @@ blocExemple/
 
 Préparez votre environnement à la racine du projet avec la commande:
 ```bash
-./setup.sh
+./tools/setup.sh
 ```
 
 Ce script :
