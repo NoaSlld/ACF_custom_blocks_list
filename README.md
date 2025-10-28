@@ -7,11 +7,11 @@ Ce script Python permet d'exporter automatiquement les fichiers d’un **bloc AC
 
 Un bloc à exporter doit être organisé ainsi :
 
-blocExemple/
-├── acf/ # Fichier(s) JSON décrivant le bloc ACF
-├── js/ # Fichiers JavaScript associés
-├── scss/ # Fichiers SCSS associés
-└── php/ # Template PHP/HTML du bloc
+blocExemple/  
+├── acf/ # Fichier(s) JSON décrivant le bloc ACF  
+├── js/ # Fichiers JavaScript associés  
+├── scss/ # Fichiers SCSS associés  
+└── php/ # Template PHP/HTML du bloc  
 
 
 ## Installation
